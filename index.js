@@ -7,10 +7,13 @@ require('dotenv').config();
 
 
 app.use(express.json());
-app.use(cors({
-  origin: ['http://localhost:5173', 'https://jkt-frontend.vercel.app/'],
-  credentials: true
-}))
+const corsOptions = {
+  origin: 'https://jkt-frontend.vercel.app',  // Allow requests from the frontend domain
+  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Adjust methods as needed
+  allowedHeaders: ['Content-Type', 'Authorization'], // Add any required headers
+};
+
+app.use(cors(corsOptions));
 
 //routes
 const itemRoutes = require('./src/items/item.route');
