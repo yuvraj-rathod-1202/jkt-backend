@@ -1,4 +1,4 @@
-const Category = require("./Category.model");
+const Category = require("./category.model");
 
 const postACategory = async (req, res) => {
     try {
