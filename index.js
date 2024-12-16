@@ -8,7 +8,7 @@ require('dotenv').config();
 
 app.use(express.json());
 app.use(cors({
-  origin: ['http://localhost:5173', 'https://jkt-frontend-gsnw7169o-yuvraj-rathods-projects-c5e7e5d3.vercel.app'],
+  origin: ['http://localhost:5173', 'https://jkt-frontend.vercel.app/'],
   credentials: true
 }))
 
