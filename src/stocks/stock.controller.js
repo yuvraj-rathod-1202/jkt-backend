@@ -24,11 +24,11 @@ const getAllStocks = async (req, res) => {
 const getSingleStock = async (req, res) => {
     try {
         const {id} = req.params;
-        const Stock = await Stock.findById(id);
-        if(!Stock){
+        const StockData = await Stock.findOne({_id: id});
+        if(!StockData){
             res.status(404).send({message: "Stock is not found"});
         }
-        res.status(200).send({ Stock });
+        res.status(200).send({ StockData });
     } catch (error) {
         console.error("Error fetching Stock", error);
         res.status(500).send({message: "Failed to fetch a Stock"});
@@ -69,10 +69,37 @@ const deleteAStock = async (req, res) => {
     }
 }
 
+const getDailySales = async (req, res) => {
+    try {
+        const sales = await Stock.aggregate([
+            {
+                $group: {
+                    _id: { $dateToString: { format: "%Y-%m-%d", date: "$createdAt" } },
+                    sales: { $sum: "$totalPrice" },
+                },
+            },
+            { $sort: { _id: 1 } }, // Sort by date (ascending)
+        ]);
+        
+        // Optional: If you want to return only the date without time
+        const formattedSales = sales.map((sale) => ({
+            date: sale._id,  // Date formatted as 'YYYY-MM-DD'
+            sales: sale.sales,
+        }));
+        
+        res.status(200).send(formattedSales); // Send the formatted sales data
+    } catch (error) {
+        console.error("Error fetching daily sales", error);
+        res.status(500).send({ message: "Failed to fetch daily sales" });
+    }
+};
+
+
 module.exports = {
     postAStock,
     getAllStocks,
     getSingleStock,
     editStock,
-    deleteAStock
+    deleteAStock,
+    getDailySales
 }
