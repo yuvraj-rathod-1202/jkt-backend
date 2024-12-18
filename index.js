@@ -11,6 +11,7 @@ const corsOptions = {
   origin: 'https://jkt-frontend.vercel.app',  // Allow requests from the frontend domain
   methods: ['GET', 'POST', 'PUT', 'DELETE'], // Adjust methods as needed
   allowedHeaders: ['Content-Type', 'Authorization'], // Add any required headers
+  Credential: true
 };
 
 app.use(cors(corsOptions));
