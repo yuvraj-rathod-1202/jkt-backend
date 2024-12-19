@@ -9,6 +9,12 @@ const customerSchema = new mongoose.Schema({
         type: Number,
         unique: true
     },
+    paid:{
+        type: Number
+    },
+    unpaid: {
+        type: Number
+    },
     orders: [String]
 });
 

@@ -28,13 +28,23 @@ const getSingleCustomer = async (req, res) => {
 
 const getAllCustomers = async (req, res) => {
     try {
-        const customers = await Customer.find().sort({ createdAt: -1});
-        res.status(200).send({customers});
+        const customers = await Customer.aggregate([
+            {
+                $addFields: {
+                    totalAmount: { $add: ["$paid", "$unpaid"] },
+                },
+            },
+            {
+                $sort: { totalAmount: -1 }, // Sort by totalAmount in descending order
+            },
+        ]);
+
+        res.status(200).send({ customers });
     } catch (error) {
-        console.error("Error fetching item", error);
-        res.status(500).send({message: "Failed to fetch a customer"});
+        console.error("Error fetching customers", error);
+        res.status(500).send({ message: "Failed to fetch customers" });
     }
-}
+};
 
 const editCustomer = async (req, res) => {
     try {
