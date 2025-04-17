@@ -22,11 +22,13 @@ const brandRoutes = require('./src/brands/brand.route');
 const categoryRoutes = require('./src/categories/category.route');
 const stockRoutes = require('./src/stocks/stock.route');
 const customerRoutes = require('./src/customers/customer.route');
+const ElectRoutes = require('./src/Elect/elect.route');
 app.use('/api/items', itemRoutes);
 app.use('/api/brands', brandRoutes);
 app.use('/api/categories', categoryRoutes);
 app.use('/api/stocks', stockRoutes);
 app.use('/api/customers', customerRoutes);
+app.use('/api/elect', ElectRoutes);
 
 app.use('/', (req, res) => {
     res.send("Store Server is running!");
